@@ -8487,19 +8487,6 @@ select_task_rq_fair(struct task_struct *p, int prev_cpu, int sd_flag, int wake_f
 	int want_energy = 0;
 	int sync = wake_flags & WF_SYNC;
 
-	if (energy_aware()) {
-		rcu_read_lock();
-		new_cpu = find_energy_efficient_cpu(energy_sd, p,
-						cpu, prev_cpu, sync,
-						sibling_count_hint);
-		rcu_read_unlock();
-
-		if (unlikely(new_cpu < 0))
-			new_cpu = prev_cpu;
-
-		return new_cpu;
-	}
-
 	rcu_read_lock();
 
 	if (sd_flag & SD_BALANCE_WAKE) {
